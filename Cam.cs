@@ -1,38 +1,40 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Cam : MonoBehaviour {
    [SerializeField] GameObject targetObj;
    Vector3 targetPos;
- 
+   Vector3 roteuler;
+
+   //回転の制限
+   [SerializeField] float ANGLE_LIMIT_UP = 0f;
+   [SerializeField] float ANGLE_LIMIT_DOWN = 0f;
+
    void Start() {
-       // プレイヤーオブジェクトの情報を取得しtargetObjに格納
        targetObj = GameObject.Find("Player");
-       // プレイヤーの位置をtargetPosに格納
        targetPos = targetObj.transform.position;
+       roteuler = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0f);
    }
 
    void Update() {
-       updateCameraPos(); // カメラの追従・回転制御の関数
+       rotateCameraAngle();
    }
 
-   // カメラの追従・回転制御
-   private void updateCameraPos() {
-       // プレイヤーの移動分だけカメラも移動
+   //カメラの回転制御
+   private void rotateCameraAngle() {
+       // targetの移動量分、自分（カメラ）も移動する
        transform.position += targetObj.transform.position - targetPos;
        targetPos = targetObj.transform.position;
-       
-       // 左シフトキーが押されたらプレイヤーを中心に左方向に公転
+
        if (Input.GetKey(KeyCode.LeftShift))
-       {
+        {
             transform.RotateAround(targetPos, Vector3.up, -5f);
-       }
-       // 右シフトキーが押されたらプレイヤーを中心に右方向に公転
-       else if (Input.GetKey(KeyCode.RightShift))
-       {
+        }
+        else if (Input.GetKey(KeyCode.RightShift))
+        {
             transform.RotateAround(targetPos, Vector3.up, 5f);
-       }
+        }
               
    }
 
