@@ -14,11 +14,11 @@ public class Cam : MonoBehaviour {
    }
 
    void Update() {
-       rotateCameraAngle(); // カメラの追従・回転制御の関数
+       updateCameraPos(); // カメラの追従・回転制御の関数
    }
 
    // カメラの追従・回転制御
-   private void rotateCameraAngle() {
+   private void updateCameraPos() {
        // プレイヤーの移動分だけカメラも移動
        transform.position += targetObj.transform.position - targetPos;
        targetPos = targetObj.transform.position;
